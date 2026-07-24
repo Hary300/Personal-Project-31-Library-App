@@ -8,7 +8,7 @@
 
 ## Repo: https://github.com/Hary300/Personal-Project-31-Library-App.git
 
-## Admin Account:
+## Demo Admin Account:
 
 ```json
 {
