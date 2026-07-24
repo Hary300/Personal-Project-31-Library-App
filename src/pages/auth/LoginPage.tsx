@@ -1,5 +1,69 @@
+import {
+  loginSchema,
+  type LoginSchema,
+} from '@/features/auth/schema/loginSchema';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import InputField from '@/components/shared/InputField';
+import { Button } from '@/components/ui/button';
+import Logo from '@/components/shared/Logo';
+import { Link } from 'react-router-dom';
+import { useState } from 'react';
+
 const LoginPage = () => {
-  return <div>LoginPage</div>;
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginSchema>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: zodResolver(loginSchema),
+  });
+
+  const [isPassShown, setIsPassShown] = useState(false);
+
+  const onSubmit = (data: LoginSchema) => {
+    console.log(data);
+    reset();
+  };
+
+  return (
+    <div className='flex flex-col gap-5 w-full max-w-100'>
+      <Logo />
+      <div className='flex flex-col'>
+        <p className='font-bold text-display-xs'>Login</p>
+        <p>Sign in to manage your library account.</p>
+      </div>
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+        <InputField
+          register={register}
+          name='email'
+          errorMessage={errors.email?.message}
+        />
+
+        <InputField
+          register={register}
+          name='password'
+          errorMessage={errors.password?.message}
+          type={isPassShown ? 'text' : 'password'}
+          isPassShown={isPassShown}
+          onClick={() => setIsPassShown((prev) => !prev)}
+        />
+
+        <Button disabled={isSubmitting}>Login</Button>
+        <p className='text-center font-semibold text-md'>
+          Don't have an account?{' '}
+          <Link to='/auth/register' className='text-primary-300 cursor-pointer'>
+            Register
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
 };
 
 export default LoginPage;
