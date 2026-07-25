@@ -32,25 +32,29 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='flex flex-col gap-5 w-full max-w-100'>
+    <section id='login' className='flex flex-col gap-5 w-full max-w-100'>
       <Logo />
       <div className='flex flex-col'>
         <p className='font-bold text-display-xs'>Login</p>
-        <p>Sign in to manage your library account.</p>
+        <p className='font-semibold lg:text-md text-neutral-700'>
+          Sign in to manage your library account.
+        </p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
         <InputField
           register={register}
           name='email'
           errorMessage={errors.email?.message}
+          label='Email'
         />
 
         <InputField
           register={register}
           name='password'
           errorMessage={errors.password?.message}
-          type={isPassShown ? 'text' : 'password'}
+          type='password'
           isPassShown={isPassShown}
+          label='Password'
           onClick={() => setIsPassShown((prev) => !prev)}
         />
 
@@ -62,7 +66,7 @@ const LoginPage = () => {
           </Link>
         </p>
       </form>
-    </div>
+    </section>
   );
 };
 
