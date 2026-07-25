@@ -7,28 +7,35 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import InputField from '@/components/shared/InputField';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/shared/Logo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useLogin } from '@/features/auth/hooks/useAuth';
 
 const LoginPage = () => {
   const {
     register,
-    reset,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginSchema>({
     defaultValues: {
-      email: '',
-      password: '',
+      email: 'hary300@mail.com',
+      password: 'secret300',
     },
     resolver: zodResolver(loginSchema),
   });
+
+  const { mutate, isPending } = useLogin();
+  const navigate = useNavigate();
 
   const [isPassShown, setIsPassShown] = useState(false);
 
   const onSubmit = (data: LoginSchema) => {
     console.log(data);
-    reset();
+    mutate(data, {
+      onSuccess: () => {
+        navigate('/');
+      },
+    });
   };
 
   return (
@@ -58,7 +65,7 @@ const LoginPage = () => {
           onClick={() => setIsPassShown((prev) => !prev)}
         />
 
-        <Button disabled={isSubmitting}>Login</Button>
+        <Button disabled={isPending}>Login</Button>
         <p className='text-center font-semibold text-md'>
           Don't have an account?{' '}
           <Link to='/auth/register' className='text-primary-300 cursor-pointer'>
