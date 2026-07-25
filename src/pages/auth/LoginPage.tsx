@@ -30,7 +30,6 @@ const LoginPage = () => {
   const [isPassShown, setIsPassShown] = useState(false);
 
   const onSubmit = (data: LoginSchema) => {
-    console.log(data);
     mutate(data, {
       onSuccess: () => {
         navigate('/');

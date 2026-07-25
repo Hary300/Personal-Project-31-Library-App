@@ -8,31 +8,45 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import type { RegisterPayload } from '@/features/auth/types';
+import { useRegister } from '@/features/auth/hooks/useAuth';
 
 const RegisterPage = () => {
   const {
     register,
-    reset,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<RegisterSchema>({
     defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: '',
+      name: 'hary305',
+      email: 'hary305@mail.com',
+      phone: '081305305305',
+      password: 'secret305',
+      confirmPassword: 'secret305',
     },
     resolver: zodResolver(registerSchema),
   });
   const [isPassShown, setIsPassShown] = useState(false);
   const [isConfirmPassShown, setIsConfirmPassShown] = useState(false);
 
+  const navigate = useNavigate();
+  const { mutate, isPending } = useRegister();
+
   const onSubmit = (data: RegisterSchema) => {
-    console.log(data);
-    reset();
+    const registerPayload: RegisterPayload = {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      password: data.password,
+    };
+    console.log(registerPayload);
+    mutate(registerPayload);
+    setTimeout(() => {
+      navigate('/auth/login');
+    }, 600);
   };
+
   return (
     <section id='register' className='flex flex-col gap-5 w-full max-w-100'>
       <Logo />
@@ -83,7 +97,9 @@ const RegisterPage = () => {
           onClick={() => setIsConfirmPassShown((prev) => !prev)}
         />
 
-        <Button disabled={isSubmitting}>Submit</Button>
+        <Button disabled={isPending}>
+          {isPending ? 'Submitting...' : 'Submit'}
+        </Button>
         <p className='text-center font-semibold text-md'>
           Already have an account?{' '}
           <Link to='/auth/login' className='text-primary-300 cursor-pointer'>
