@@ -1,12 +1,11 @@
 import { categories, type CategorySlug } from '@/data/categories';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CategoriesHome = () => {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const handleCardClick = (category: CategorySlug) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams();
 
     params.set('category', category);
 
