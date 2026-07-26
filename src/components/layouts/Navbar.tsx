@@ -14,20 +14,34 @@ const Navbar = () => {
   const token = useAuthStore((state) => state.token);
   const user = useAuthStore((state) => state.user);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10);
+    };
+
     const handleResize = () => {
       setIsSearchOpen(false);
     };
 
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
   return (
-    <header className='relative flex justify-between items-center gap-4 h-20'>
+    <header
+      className={cn(
+        'sticky top-0 flex justify-between items-center gap-4 h-20 shadow-soft z-20',
+        isScrolled && 'backdrop-blur-lg'
+      )}
+    >
       <Logo />
       {token && <SearchField className='hidden md:block' />}
 

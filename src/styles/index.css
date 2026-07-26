@@ -200,6 +200,26 @@
   /* Text XS (12px) */
   --text-xs: 0.75rem; /* 12px */
   --text-xs--line-height: 1.5rem; /* 24px */
+
+  /*
+|--------------------
+| GRADIENT
+|--------------------
+*/
+
+  --gradient-primary: linear-gradient(
+    180deg,
+    #58b0e8 0%,
+    #9fccf3 50%,
+    #e7e9ff 100%
+  );
+
+  /*
+|--------------------
+| SHADOW
+|--------------------
+*/
+  --shadow-soft: 0 0 20px 0 rgb(203 202 202 / 0.25);
 }
 
 /*
@@ -339,4 +359,8 @@
   html {
     @apply font-sans;
   }
+}
+
+@utility bg-primary-gradient {
+  background: var(--gradient-primary);
 }

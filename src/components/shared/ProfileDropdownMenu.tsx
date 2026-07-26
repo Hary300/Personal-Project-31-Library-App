@@ -23,7 +23,7 @@ const ProfileDropdownMenu = ({ user }: ProfileDropdownMenuProps) => {
 
   const handleLogoutClick = () => {
     navigate('/auth/login');
-    toast.success('Logged out');
+    toast.success('Logged out successfully');
     setTimeout(() => {
       logout();
     }, 300);
