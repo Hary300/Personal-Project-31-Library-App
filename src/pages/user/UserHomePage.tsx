@@ -1,6 +1,7 @@
 import HeroHome from './sections/home/HeroHome';
 import CategoriesHome from './sections/home/CategoriesHome';
 import RecommendedBookHome from './sections/home/RecommendedBooksHome';
+import PopularAuthorsHome from './sections/home/PopularAuthorsHome';
 
 const UserHomePage = () => {
   return (
@@ -9,11 +10,7 @@ const UserHomePage = () => {
       <CategoriesHome />
       <RecommendedBookHome />
       <div className='border-b w-full' />
-      <section id='popular-authors'>
-        <h2 className='font-bold text-display-xs lg:text-display-lg'>
-          Popular Authors
-        </h2>
-      </section>
+      <PopularAuthorsHome />
     </div>
   );
 };
