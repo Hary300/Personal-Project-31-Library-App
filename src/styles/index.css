@@ -364,3 +364,7 @@
 @utility bg-primary-gradient {
   background: var(--gradient-primary);
 }
+
+@utility hover-lift {
+  @apply cursor-pointer transition-transform duration-300 hover:-translate-y-1 active:translate-y-0;
+}

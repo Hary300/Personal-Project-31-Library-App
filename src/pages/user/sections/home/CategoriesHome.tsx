@@ -20,7 +20,7 @@ const CategoriesHome = () => {
       {categories.map((category) => (
         <div
           key={category.id}
-          className='shadow-soft rounded-2xl p-2 lg:p-3 flex flex-col gap-3 bg-white w-full max-w-[112.33px] md:max-w-[186.6px] cursor-pointer hover:-translate-y-1 active:translate-y-0 transition-transform duration-300'
+          className='shadow-soft rounded-2xl p-2 lg:p-3 flex flex-col gap-3 bg-white w-full max-w-[112.33px] md:max-w-[186.6px] hover-lift'
           onClick={() => handleCardClick(category.slug)}
         >
           <div className='flex justify-center items-center bg-[#E0ECFF] rounded-2xl'>
