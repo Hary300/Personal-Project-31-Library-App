@@ -36,7 +36,7 @@ export const getRecommendedBooks = async ({
 };
 
 export const getBookDetail = async (
-  id: string
+  id: number
 ): Promise<ApiResponse<BookDetailData>> => {
   const { data } = await api.get<ApiResponse<BookDetailData>>(`/books/${id}`);
   return data;

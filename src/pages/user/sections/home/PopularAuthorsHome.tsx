@@ -9,7 +9,7 @@ const PopularAuthorsHome = () => {
   return (
     <section
       id='popular-authors'
-      className='relative flex flex-col gap-5 lg:gap-10'
+      className='relative flex flex-col gap-5 lg:gap-10 '
     >
       <h2 className='font-bold text-display-xs lg:text-display-lg'>
         Popular Authors
@@ -25,7 +25,7 @@ const PopularAuthorsHome = () => {
           {error.message}
         </p>
       ) : popularAuthors.length > 0 ? (
-        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5 '>
+        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5 '>
           {popularAuthors.map((author) => (
             <AuthorCard key={author.id} author={author} />
           ))}

@@ -14,11 +14,11 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
   };
   return (
     <div
-      className='shadow-soft rounded-xl flex gap-3 p-3 lg:gap-4 lg:p-4 items-center hover-lift'
+      className='shadow-soft rounded-xl flex gap-3 p-3 lg:gap-4 lg:p-4 items-center hover-lift '
       onClick={() => handleCardClick(author.id)}
     >
       <div className='size-15 lg:size-20.25 rounded-full shrink-0 aspect-square border flex justify-center items-center'>
-        <CiImageOff className='size-7 text-neutral-500' />
+        <CiImageOff className='size-10 text-neutral-400' />
       </div>
       <div className='flex flex-col gap-0.5'>
         <p className='font-bold text-md lg:text-lg'>{author.name}</p>

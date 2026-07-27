@@ -51,7 +51,7 @@ const Navbar = () => {
       {token && <SearchField className='hidden md:block' />}
 
       {token && user && !isSearchOpen && (
-        <div className='absolute md:static top-1/2 md:top-auto md:translate-y-0 md:right-auto -translate-y-1/2 right-0 flex gap-4 lg:gap-6 items-center'>
+        <div className='absolute md:static top-1/2 md:top-auto md:translate-y-0 md:right-auto -translate-y-1/2 right-4 flex gap-4 lg:gap-6 items-center'>
           <SearchIcon
             className={cn('cursor-pointer md:hidden')}
             onClick={() => setIsSearchOpen(true)}
@@ -63,6 +63,8 @@ const Navbar = () => {
           <Avatar user={user} />
         </div>
       )}
+
+      {/* <div>test</div> */}
       {!token && (
         <div className='flex justify-between max-w-85.5 w-full'>
           <Link to='/auth/login' className='w-full max-w-40.75'>

@@ -1,5 +1,5 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getRecommendedBooks } from '../service/book.service';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { getBookDetail, getRecommendedBooks } from '../service/book.service';
 
 export const useRecommendedBooks = (by: 'rating' | 'popular' = 'rating') => {
   return useInfiniteQuery({
@@ -10,5 +10,12 @@ export const useRecommendedBooks = (by: 'rating' | 'popular' = 'rating') => {
       const { page, totalPages } = lastPage.data.pagination;
       return page < totalPages ? page + 1 : undefined;
     },
+  });
+};
+
+export const useGetBookDetail = (id: number) => {
+  return useQuery({
+    queryKey: ['books', 'detail', id],
+    queryFn: () => getBookDetail(id),
   });
 };
