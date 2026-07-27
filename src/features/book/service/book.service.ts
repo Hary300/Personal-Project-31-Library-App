@@ -2,12 +2,38 @@ import { api } from '@/lib/axios';
 import type { ApiResponse } from '@/types';
 import type {
   BookDetailData,
+  BookReviewData,
   BooksData,
   RecommendedBooksData,
 } from '../types/book';
 
-export const getAllBooks = async (): Promise<ApiResponse<BooksData>> => {
-  const { data } = await api.get<ApiResponse<BooksData>>('/books');
+export interface GetAllBooksParams {
+  q?: string;
+  categoryId?: number;
+  authorId?: number;
+  minRating?: number;
+  page?: number;
+  limit?: number;
+}
+
+export const getAllBooks = async ({
+  q,
+  categoryId,
+  authorId,
+  minRating,
+  page = 1,
+  limit = 12,
+}: GetAllBooksParams): Promise<ApiResponse<BooksData>> => {
+  const { data } = await api.get<ApiResponse<BooksData>>('/books', {
+    params: {
+      q,
+      categoryId,
+      authorId,
+      minRating,
+      page,
+      limit,
+    },
+  });
   return data;
 };
 
@@ -39,5 +65,28 @@ export const getBookDetail = async (
   id: number
 ): Promise<ApiResponse<BookDetailData>> => {
   const { data } = await api.get<ApiResponse<BookDetailData>>(`/books/${id}`);
+  return data;
+};
+
+export interface GetBookReviewsParams {
+  id: number;
+  page?: number;
+  limit?: number;
+}
+
+export const getBookReviews = async ({
+  id,
+  limit = 10,
+  page = 1,
+}: GetBookReviewsParams): Promise<ApiResponse<BookReviewData>> => {
+  const { data } = await api.get<ApiResponse<BookReviewData>>(
+    `/reviews/book/${id}`,
+    {
+      params: {
+        page,
+        limit,
+      },
+    }
+  );
   return data;
 };

@@ -8,20 +8,18 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGetBookDetail } from '@/features/book/hooks/useBook';
-import { useParams } from 'react-router-dom';
 import BookInfo, { type BookInfoData } from './components/BookInfo';
 import Description from './components/Description';
 import BookActionButtons from './components/BookActionButtons';
+import type { Book } from '@/features/book/types/book';
 
-const Detail = () => {
-  const { id } = useParams();
-  const {
-    data: detailResponse,
-    isLoading,
-    error,
-  } = useGetBookDetail(Number(id));
-  const bookDetail = detailResponse?.data;
+interface DetailProps {
+  bookDetail?: Book;
+  error: Error | null;
+  isLoading: boolean;
+}
+
+const Detail = ({ bookDetail, error, isLoading }: DetailProps) => {
   const description = bookDetail?.description ?? '';
 
   if (error) return <p>{error.message}</p>;

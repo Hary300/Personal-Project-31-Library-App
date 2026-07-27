@@ -95,3 +95,12 @@ export interface UserSummary {
   id: number;
   name: string;
 }
+
+/**------------
+ * Books review
+ -------------*/
+export interface BookReviewData {
+  bookId: number;
+  reviews: Review[];
+  pagination: Pagination;
+}
