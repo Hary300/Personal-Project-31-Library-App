@@ -1,4 +1,7 @@
-import AuthorCard from '@/components/shared/AuthorCard';
+import AuthorCard, {
+  type AuthorCardData,
+} from '@/components/shared/AuthorCard';
+import EmptyState from '@/components/shared/EmptyState';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetPopularAuthors } from '@/features/book/hooks/useAuthor';
 
@@ -26,12 +29,19 @@ const PopularAuthorsHome = () => {
         </p>
       ) : popularAuthors.length > 0 ? (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-5 '>
-          {popularAuthors.map((author) => (
-            <AuthorCard key={author.id} author={author} />
-          ))}
+          {popularAuthors.map((author) => {
+            const authorCardData: AuthorCardData = {
+              name: author.name,
+              id: author.id,
+              bookCount: author.bookCount,
+            };
+            return (
+              <AuthorCard key={author.id} authorCardData={authorCardData} />
+            );
+          })}
         </div>
       ) : (
-        ''
+        <EmptyState className='h-50' />
       )}
     </section>
   );

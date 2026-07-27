@@ -32,7 +32,7 @@ const BookActionButtons = ({
     );
 
   return (
-    <div className='w-full lg:max-w-103 flex gap-3 justify-between'>
+    <div className='w-full md:max-w-103 flex gap-3 justify-between'>
       <Button
         variant='outline'
         className='w-[48%]'

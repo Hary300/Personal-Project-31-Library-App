@@ -17,8 +17,6 @@ const RelatedBooks = ({ categoryId }: RelatedBooksProps) => {
     fetchNextPage,
   } = useGetAllBooks({ categoryId, limit: 5 });
 
-  console.log(categoryId);
-
   const books = data?.pages.flatMap((page) => page.data.books) ?? [];
 
   if (error) return <p>{error.message}</p>;

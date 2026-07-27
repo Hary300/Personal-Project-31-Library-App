@@ -33,7 +33,6 @@ const Detail = ({ bookDetail, error, isLoading }: DetailProps) => {
     title: bookDetail?.title ?? 'Untitled',
     totalCopies: bookDetail?.totalCopies ?? 0,
   };
-
   return (
     <section id='detail'>
       <div className='flex flex-col gap-4 lg:gap-6'>
@@ -53,17 +52,17 @@ const Detail = ({ bookDetail, error, isLoading }: DetailProps) => {
           </BreadcrumbList>
         </Breadcrumb>
         <div className='flex flex-col gap-9 md:flex-row  items-start'>
-          <div className='w-[222.75px] h-[328.83px] lg:w-84.25 lg:h-124.5 shrink-0 bg-neutral-200 p-[5.29px] lg:p-2 mx-auto lg:mx-0'>
-            {isLoading ? (
-              <Skeleton className='w-full h-[328.83px] lg:h-124.5' />
-            ) : (
+          {isLoading ? (
+            <Skeleton className='w-[222.75px] h-[328.83px] lg:w-84.25 lg:h-124.5 rounded-none mx-auto shrink-0' />
+          ) : (
+            <div className='w-[222.75px] h-[328.83px] lg:w-84.25 lg:h-124.5 shrink-0 bg-neutral-200 p-[5.29px] lg:p-2 mx-auto lg:mx-0'>
               <img
                 src={bookDetail?.coverImage}
                 alt={`${bookDetail?.title} image`}
                 className='size-full object-cover'
               />
-            )}
-          </div>
+            </div>
+          )}
           <div className='flex flex-col gap-4 lg:gap-5 w-full'>
             <BookInfo bookInfoData={bookInfoData} isLoading={isLoading} />
             <HorizontalLine />

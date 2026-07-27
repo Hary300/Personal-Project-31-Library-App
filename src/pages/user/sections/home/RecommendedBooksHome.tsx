@@ -1,4 +1,5 @@
 import BooksGrid from '@/components/shared/BooksGrid';
+import EmptyState from '@/components/shared/EmptyState';
 import LoadMoreButton from '@/components/shared/LoadMoreButton';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useRecommendedBooks } from '@/features/book/hooks/useBook';
@@ -26,7 +27,7 @@ const RecommendedBookHome = () => {
       </h2>
 
       {isLoading ? (
-        <div className='grid gap-4 lg:gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+        <div className='grid gap-4 lg:gap-5 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5'>
           {Array.from({ length: 8 }).map((_, index) => (
             <Skeleton key={index} className='h-92.5' />
           ))}
@@ -45,9 +46,7 @@ const RecommendedBookHome = () => {
           />
         </div>
       ) : (
-        <div className='h-50 flex justify-center items-center w-full font-semibold shadow-soft rounded-2xl'>
-          Data empty
-        </div>
+        <EmptyState className='h-50' />
       )}
     </section>
   );

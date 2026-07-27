@@ -1,5 +1,5 @@
 import type { ApiResponse } from '@/types';
-import type { PopularAuthorsData } from '../types/author';
+import type { AuthorBooksData, PopularAuthorsData } from '../types/author';
 import { api } from '@/lib/axios';
 
 interface GetPopularAuthorsParams {
@@ -18,5 +18,28 @@ export const getPopularAuthors = async ({
     }
   );
 
+  return data;
+};
+
+export interface GetBooksByAuthorParams {
+  id: number;
+  page?: number;
+  limit?: number;
+}
+
+export const getBooksByAuthor = async ({
+  id,
+  page = 1,
+  limit = 12,
+}: GetBooksByAuthorParams) => {
+  const { data } = await api.get<ApiResponse<AuthorBooksData>>(
+    `/authors/${id}/books`,
+    {
+      params: {
+        page,
+        limit,
+      },
+    }
+  );
   return data;
 };

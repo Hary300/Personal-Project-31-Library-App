@@ -1,12 +1,17 @@
-import type { PopularAuthor } from '@/features/book/types/author';
 import { CiImageOff } from 'react-icons/ci';
 import book from '@/assets/icons/book.svg';
 import { useNavigate } from 'react-router-dom';
 
-interface AuthorCardProps {
-  author: PopularAuthor;
+export interface AuthorCardData {
+  id: number;
+  name: string;
+  bookCount: number;
 }
-const AuthorCard = ({ author }: AuthorCardProps) => {
+
+interface AuthorCardProps {
+  authorCardData: AuthorCardData;
+}
+const AuthorCard = ({ authorCardData }: AuthorCardProps) => {
   const navigate = useNavigate();
 
   const handleCardClick = (id: number) => {
@@ -15,17 +20,17 @@ const AuthorCard = ({ author }: AuthorCardProps) => {
   return (
     <div
       className='shadow-soft rounded-xl flex gap-3 p-3 lg:gap-4 lg:p-4 items-center hover-lift '
-      onClick={() => handleCardClick(author.id)}
+      onClick={() => handleCardClick(authorCardData.id)}
     >
       <div className='size-15 lg:size-20.25 rounded-full shrink-0 aspect-square border flex justify-center items-center'>
         <CiImageOff className='size-10 text-neutral-400' />
       </div>
       <div className='flex flex-col gap-0.5'>
-        <p className='font-bold text-md lg:text-lg'>{author.name}</p>
+        <p className='font-bold text-md lg:text-lg'>{authorCardData.name}</p>
         <div className='flex gap-2.5'>
           <img src={book} alt='book icon' />
           <p className='font-medium text-sm lg:text-md'>
-            {author.bookCount} books
+            {authorCardData.bookCount} books
           </p>
         </div>
       </div>

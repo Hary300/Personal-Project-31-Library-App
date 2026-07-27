@@ -64,7 +64,6 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* <div>test</div> */}
       {!token && (
         <div className='flex justify-between max-w-85.5 w-full'>
           <Link to='/auth/login' className='w-full max-w-40.75'>
@@ -78,10 +77,12 @@ const Navbar = () => {
         </div>
       )}
 
-      <MobileSearchField
-        isOpen={isSearchOpen}
-        onClick={() => setIsSearchOpen(false)}
-      />
+      {token && (
+        <MobileSearchField
+          isOpen={isSearchOpen}
+          onClick={() => setIsSearchOpen(false)}
+        />
+      )}
     </header>
   );
 };

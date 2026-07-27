@@ -1,14 +1,21 @@
 import type { Book, RecommendedBook } from '@/features/book/types/book';
 import type { BookDataCard } from './BookCard';
 import BookCard from './BookCard';
+import { cn } from '@/lib/utils';
 
 interface BooksGridProps {
   books: Book[] | RecommendedBook[];
+  className?: string;
 }
 
-const BooksGrid = ({ books }: BooksGridProps) => {
+const BooksGrid = ({ books, className }: BooksGridProps) => {
   return (
-    <div className='grid gap-4 lg:gap-5 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+    <div
+      className={cn(
+        'grid gap-4 lg:gap-5 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5',
+        className
+      )}
+    >
       {books.map((book) => {
         const bookDataCard: BookDataCard = {
           coverImage: book.coverImage,
