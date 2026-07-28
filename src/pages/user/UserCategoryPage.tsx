@@ -50,7 +50,7 @@ const UserCategoryPage = () => {
           <SideBar />
           {isLoading ? (
             <div className='relative pb-15 lg:pb-22 w-full'>
-              <div className='grid gap-4 lg:gap-5 grid-cols-2 md:grid-cols-3 xl:grid-cols-4 w-full'>
+              <div className='grid gap-4 lg:gap-5 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 w-full'>
                 {Array.from({ length: 8 }).map((_, index) => (
                   <Skeleton key={index} className='h-90 lg:h-100' />
                 ))}
