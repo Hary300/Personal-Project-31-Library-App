@@ -10,6 +10,9 @@ import { GoTrash } from 'react-icons/go';
 import LoanSummary from './sections/cart/LoanSummary';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useCartStore } from '@/features/cart/store/useCartStore';
+import BookListItem, {
+  type BookListItemData,
+} from '@/components/shared/BookListItem';
 
 const UserCartPage = () => {
   const { data, isLoading, error } = useGetMyCart();
@@ -70,49 +73,40 @@ const UserCartPage = () => {
               </div>
             ) : items.length > 0 ? (
               <div className='flex flex-col gap-4 lg:gap-6 divide-y w-full'>
-                {items.map((item) => (
-                  <div key={item.book.title} className='flex justify-between'>
-                    <div key={item.id} className='flex gap-4 pb-4 lg:pb-6'>
-                      <Checkbox
-                        checked={selectedItemIds.includes(item.id)}
-                        id={item.book.title}
-                        onCheckedChange={(checked) =>
-                          handleSelectBook(!!checked, item.id)
-                        }
-                      />
-                      <label
-                        htmlFor={item.book.title}
-                        className='flex gap-3 lg:gap-4 items-center'
+                {items.map((item) => {
+                  const booListItemData: BookListItemData = {
+                    coverImage: item.book.coverImage,
+                    authorName: item.book.author.name,
+                    bookTitle: item.book.title,
+                    categoryName: item.book.category.name,
+                  };
+                  return (
+                    <div key={item.book.title} className='flex justify-between'>
+                      <div key={item.id} className='flex gap-4 pb-4 lg:pb-6'>
+                        <Checkbox
+                          checked={selectedItemIds.includes(item.id)}
+                          id={item.book.title}
+                          onCheckedChange={(checked) =>
+                            handleSelectBook(!!checked, item.id)
+                          }
+                        />
+                        <label
+                          htmlFor={item.book.title}
+                          className='flex gap-3 lg:gap-4 items-center'
+                        >
+                          <BookListItem bookListItemData={booListItemData} />
+                        </label>
+                      </div>
+                      <Button
+                        variant='outline'
+                        className='size-8 flex justify-center items-center aspect-square shrink-0'
+                        onClick={() => handleDeleteClick(item.id)}
                       >
-                        <div className='w-17.5 h-26.5 shrink-0'>
-                          <img
-                            src={item.book.coverImage}
-                            alt='book cover'
-                            className='size-full object-cover'
-                          />
-                        </div>
-                        <div className='flex flex-col gap-1'>
-                          <div className='border rounded-sm flex justify-center items-center font-bold text-sm w-fit px-2'>
-                            {item.book.category.name}
-                          </div>
-                          <p className='font-bold text-md lg:text-lg'>
-                            {item.book.title}
-                          </p>
-                          <p className='font-medium text-neutral-700 text-sm lg:text-md'>
-                            {item.book.author.name}
-                          </p>
-                        </div>
-                      </label>
+                        <GoTrash />
+                      </Button>
                     </div>
-                    <Button
-                      variant='outline'
-                      className='size-8 flex justify-center items-center aspect-square shrink-0'
-                      onClick={() => handleDeleteClick(item.id)}
-                    >
-                      <GoTrash />
-                    </Button>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <EmptyState className='h-50' />

@@ -23,7 +23,7 @@ const BookActionButtons = ({
   };
 
   const handleBorrowBookClick = () => {
-    navigate('/cart/checkout');
+    navigate('/cart');
   };
 
   if (isLoading)
