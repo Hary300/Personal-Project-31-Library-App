@@ -7,66 +7,119 @@ import {
   useGetMyCart,
 } from '@/features/cart/hooks/useCart';
 import { GoTrash } from 'react-icons/go';
+import LoanSummary from './sections/cart/LoanSummary';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useCartStore } from '@/features/cart/store/useCartStore';
 
 const UserCartPage = () => {
   const { data, isLoading, error } = useGetMyCart();
   const { mutate } = useDeleteOneItemFromCart();
-  if (isLoading) return;
+  const selectedItemIds = useCartStore((state) => state.itemIds);
+  const addItemId = useCartStore((state) => state.addItemId);
+  const addAllItemIds = useCartStore((state) => state.addAllItemIds);
+  const deleteItemId = useCartStore((state) => state.deleteItemId);
+  const deleteAllItemIds = useCartStore((state) => state.deleteAllItemIds);
   if (error) return <p>{error.message}</p>;
-  const books = data?.data.items ?? [];
+  const items = data?.data.items ?? [];
 
   const handleDeleteClick = (itemId: number) => {
     mutate(itemId);
   };
+
+  const handleSelectBook = (checked: boolean, itemId: number) => {
+    if (checked) {
+      addItemId(itemId);
+    } else {
+      deleteItemId(itemId);
+    }
+  };
+
+  const handleSelectAllBooks = (checked: boolean) => {
+    if (checked) {
+      addAllItemIds(items.map((item) => item.id));
+    } else {
+      deleteAllItemIds();
+    }
+  };
+
+  const totalBooks = selectedItemIds.length;
   return (
     <Container>
       <section id='cart' className='relative flex flex-col gap-5 lg:gap-10'>
         <h2 className='font-bold text-display-xs lg:text-display-lg'>
           My Cart
         </h2>
-        {books.length > 0 ? (
-          <div className='flex flex-col gap-4 lg:gap-6 divide-y'>
-            {books.map((book) => (
-              <div key={book.book.title} className='flex justify-between'>
-                <div key={book.id} className='flex gap-4 pb-4 lg:pb-6'>
-                  <Checkbox id={book.book.title} />
-                  <label
-                    htmlFor={book.book.title}
-                    className='flex gap-3 lg:gap-4 items-center'
-                  >
-                    <div className='w-17.5 h-26.5 shrink-0'>
-                      <img
-                        src={book.book.coverImage}
-                        alt='book cover'
-                        className='size-full object-cover'
-                      />
-                    </div>
-                    <div className='flex flex-col gap-1'>
-                      <div className='border rounded-sm flex justify-center items-center font-bold text-sm w-fit px-2'>
-                        {book.book.category.name}
-                      </div>
-                      <p className='font-bold text-md lg:text-lg'>
-                        {book.book.title}
-                      </p>
-                      <p className='font-medium text-neutral-700 text-sm lg:text-md'>
-                        {book.book.author.name}
-                      </p>
-                    </div>
-                  </label>
-                </div>
-                <Button
-                  variant='outline'
-                  className='size-8 flex justify-center items-center aspect-square shrink-0'
-                  onClick={() => handleDeleteClick(book.id)}
-                >
-                  <GoTrash />
-                </Button>
+
+        <div className='flex md:gap-10 justify-between items-start'>
+          <div className='flex flex-col gap-7.5 w-full'>
+            <div className='flex gap-4 items-center'>
+              <Checkbox
+                id='selectAll'
+                checked={
+                  items.length > 0 && selectedItemIds.length === items.length
+                }
+                onCheckedChange={(checked) => handleSelectAllBooks(!!checked)}
+              />
+              <label htmlFor='selectAll'>Select All</label>
+            </div>
+            {isLoading ? (
+              <div className='flex flex-col gap-4 lg:gap-6 divide-y w-full'>
+                {Array.from({ length: 4 }).map((_, index) => (
+                  <Skeleton key={index} className='h-30 w-full' />
+                ))}
               </div>
-            ))}
+            ) : items.length > 0 ? (
+              <div className='flex flex-col gap-4 lg:gap-6 divide-y w-full'>
+                {items.map((item) => (
+                  <div key={item.book.title} className='flex justify-between'>
+                    <div key={item.id} className='flex gap-4 pb-4 lg:pb-6'>
+                      <Checkbox
+                        checked={selectedItemIds.includes(item.id)}
+                        id={item.book.title}
+                        onCheckedChange={(checked) =>
+                          handleSelectBook(!!checked, item.id)
+                        }
+                      />
+                      <label
+                        htmlFor={item.book.title}
+                        className='flex gap-3 lg:gap-4 items-center'
+                      >
+                        <div className='w-17.5 h-26.5 shrink-0'>
+                          <img
+                            src={item.book.coverImage}
+                            alt='book cover'
+                            className='size-full object-cover'
+                          />
+                        </div>
+                        <div className='flex flex-col gap-1'>
+                          <div className='border rounded-sm flex justify-center items-center font-bold text-sm w-fit px-2'>
+                            {item.book.category.name}
+                          </div>
+                          <p className='font-bold text-md lg:text-lg'>
+                            {item.book.title}
+                          </p>
+                          <p className='font-medium text-neutral-700 text-sm lg:text-md'>
+                            {item.book.author.name}
+                          </p>
+                        </div>
+                      </label>
+                    </div>
+                    <Button
+                      variant='outline'
+                      className='size-8 flex justify-center items-center aspect-square shrink-0'
+                      onClick={() => handleDeleteClick(item.id)}
+                    >
+                      <GoTrash />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <EmptyState className='h-50' />
+            )}
           </div>
-        ) : (
-          <EmptyState className='h-50' />
-        )}
+          <LoanSummary totalBook={totalBooks} />
+        </div>
       </section>
     </Container>
   );

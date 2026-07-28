@@ -17,6 +17,7 @@ const UserCategoryPage = () => {
     (category) => category.name.toLowerCase() === categoryName
   )?.id;
   const queries: GetAllBooksParams = {
+    q: searchParam.get('q') || undefined,
     categoryId: categoryId,
     minRating: Number(searchParam.get('minRating')) || undefined,
   };
