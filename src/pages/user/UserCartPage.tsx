@@ -27,6 +27,7 @@ const UserCartPage = () => {
 
   const handleDeleteClick = (itemId: number) => {
     mutate(itemId);
+    deleteItemId(itemId);
   };
 
   const handleSelectBook = (checked: boolean, itemId: number) => {
@@ -109,7 +110,7 @@ const UserCartPage = () => {
                 })}
               </div>
             ) : (
-              <EmptyState className='h-50' />
+              <EmptyState className='h-50'>Cart is empty</EmptyState>
             )}
           </div>
           <LoanSummary totalBook={totalBooks} />
