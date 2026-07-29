@@ -10,6 +10,7 @@ import Logo from '@/components/shared/Logo';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useLogin } from '@/features/auth/hooks/useAuth';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
 
 const LoginPage = () => {
   const {
@@ -18,8 +19,10 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<LoginSchema>({
     defaultValues: {
-      email: 'hary300@mail.com',
-      password: 'secret300',
+      // email: 'hary300@mail.com',
+      // password: 'secret300',
+      email: 'admin@library.local',
+      password: 'admin123',
     },
     resolver: zodResolver(loginSchema),
   });
@@ -32,7 +35,13 @@ const LoginPage = () => {
   const onSubmit = (data: LoginSchema) => {
     mutate(data, {
       onSuccess: () => {
-        navigate('/');
+        const { user } = useAuthStore.getState();
+        if (user?.role === 'ADMIN') {
+          navigate('/admin');
+        } else {
+          console.log('role bukan admin');
+          navigate('/');
+        }
       },
     });
   };
