@@ -13,6 +13,8 @@
 ```json
 {
   "email": "admin@library.local",
-  "password": "admin123"
+  "password": "admin123",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzg1MzE2NzQ4LCJleHAiOjE3ODU5MjE1NDh9.3611yt0ho-IcqrieKLDUp24nYZ_72DJWboMZdQgDRR0",
+
 }
 ```
