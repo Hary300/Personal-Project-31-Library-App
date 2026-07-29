@@ -17,7 +17,7 @@ const UserProfilePage = () => {
   const activeTab = searchParams.get('tab');
 
   const handleTabClick = (tab: TabSlug) => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams();
 
     params.set('tab', tab);
     setSearchParams(params);

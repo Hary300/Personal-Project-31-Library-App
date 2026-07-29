@@ -38,7 +38,6 @@ const ProfileDropdownMenu = ({ user, isLoading }: ProfileDropdownMenuProps) => {
       logout();
     }, 300);
   };
-  console.log(user.profilePhoto);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
