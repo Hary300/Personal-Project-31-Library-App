@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
-import { useAddMyReview } from '@/features/my-reviews/hooks/useMyReview';
+import { useAddMyReview } from '@/features/profile/hooks/useMyReview';
 import {
   reviewSchema,
   type ReviewSchema,

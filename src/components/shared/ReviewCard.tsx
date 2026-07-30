@@ -1,10 +1,8 @@
 import type { Review } from '@/features/book/types/book';
-import { useGetProfile } from '@/features/profile/hooks/useProfile';
 import { formatDateTime } from '@/utils/formate-date';
 import { CiImageOff } from 'react-icons/ci';
 import { TiStarFullOutline } from 'react-icons/ti';
-import { Skeleton } from '../ui/skeleton';
-import { useDeleteMyReview } from '@/features/my-reviews/hooks/useMyReview';
+import { useDeleteMyReview } from '@/features/profile/hooks/useMyReview';
 import { Button } from '../ui/button';
 import { GoTrash } from 'react-icons/go';
 import {
@@ -17,30 +15,31 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
 
 interface ReviewCardProps {
   review: Review;
 }
 const ReviewCard = ({ review }: ReviewCardProps) => {
-  const { data, isLoading } = useGetProfile();
+  const user = useAuthStore((state) => state.user);
   const { mutate, isPending } = useDeleteMyReview();
   const dateTime = formatDateTime(review.createdAt);
-  const profilePhoto = data?.data.profile.profilePhoto;
 
-  const handleDeleteReviewClick = (reviewId: number) => {
-    mutate(reviewId);
+  const handleDeleteReviewClick = (reviewId: number, bookId: number) => {
+    mutate({ reviewId, bookId });
   };
+
+  const isMyReview = review.userId === user?.id;
+
+  const avatar = isMyReview ? user.profilePhoto : undefined;
+
   return (
     <div className='flex flex-col p-4 rounded-2xl shadow-soft'>
       <div className='flex justify-between items-start'>
         <div className='flex gap-3 items-center mb-4 lg:mb-4.5'>
-          {isLoading ? (
+          {avatar ? (
             <div className='size-14.5 lg:size-16 shrink-0 rounded-full border flex justify-center items-center overflow-hidden'>
-              <Skeleton className='size-full' />
-            </div>
-          ) : profilePhoto ? (
-            <div className='size-14.5 lg:size-16 shrink-0 rounded-full border flex justify-center items-center overflow-hidden'>
-              <img src={profilePhoto} alt='avatar' />
+              <img src={avatar} alt='avatar' />
             </div>
           ) : (
             <div className='size-14.5 lg:size-16 shrink-0 rounded-full border flex justify-center items-center'>
@@ -52,36 +51,40 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
             <p className='font-medium lg:text-md'>{dateTime}</p>
           </div>
         </div>
-        <div>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant='outline'
-                className='size-8 flex justify-center items-center aspect-square shrink-0'
-              >
-                <GoTrash />
-              </Button>
-            </AlertDialogTrigger>
-
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Are you sure to delete this review?
-                </AlertDialogTitle>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel className='px-4'>No</AlertDialogCancel>
-                <AlertDialogAction
-                  className='px-4'
-                  onClick={() => handleDeleteReviewClick(review.id)}
-                  disabled={isPending}
+        {isMyReview && (
+          <div>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant='outline'
+                  className='size-8 flex justify-center items-center aspect-square shrink-0'
                 >
-                  {isPending ? 'Deleting...' : 'Delete'}
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+                  <GoTrash />
+                </Button>
+              </AlertDialogTrigger>
+
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure to delete this review?
+                  </AlertDialogTitle>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className='px-4'>No</AlertDialogCancel>
+                  <AlertDialogAction
+                    className='px-4'
+                    onClick={() =>
+                      handleDeleteReviewClick(review.id, review.bookId)
+                    }
+                    disabled={isPending}
+                  >
+                    {isPending ? 'Deleting...' : 'Delete'}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        )}
       </div>
 
       <div className='flex'>
