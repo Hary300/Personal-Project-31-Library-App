@@ -29,10 +29,15 @@ export const addBookAdmin = async (
   return data;
 };
 
-export const editBookAdmin = async (
-  bookId: number,
-  payload: BookAdminPayload
-): Promise<ApiResponse<UpdateBookData>> => {
+export interface EditBookAdminPayload {
+  bookId: number;
+  payload: BookAdminPayload;
+}
+
+export const editBookAdmin = async ({
+  bookId,
+  payload,
+}: EditBookAdminPayload): Promise<ApiResponse<UpdateBookData>> => {
   const { data } = await api.put<ApiResponse<UpdateBookData>>(
     `/books/${bookId}`,
     payload

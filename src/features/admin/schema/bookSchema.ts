@@ -9,30 +9,33 @@ const ACCEPTED_IMAGE_TYPES = [
   'image/gif',
 ];
 
-export const createBookSchema = z.object({
+export const bookSchema = z.object({
   // Required fields
   title: z.string().min(1, 'Title is required'),
 
   isbn: z.string().min(1, 'ISBN is required'),
 
-  categoryId: z.coerce
-    .number({ message: 'Category must be selected' })
-    .min(1, 'Category is required'),
+  categoryId: z.preprocess(
+    (val) =>
+      val === '' || val === null || val === undefined ? undefined : Number(val),
+    z
+      .number({ message: 'Category must be selected' })
+      .min(1, 'Category is required')
+  ),
+
+  authorName: z.string().min(1, 'Author name is required'),
 
   // Optional fields
   authorId: z.coerce.number().optional().nullable(),
-
-  authorName: z.string().optional().nullable(),
 
   description: z.string().optional().nullable(),
 
   publishedYear: z.coerce
     .number()
     .int('Year must be an integer')
+    .min(1, 'Published year is required')
     .min(1000, 'Invalid year')
-    .max(new Date().getFullYear(), 'Year cannot be in the future')
-    .optional()
-    .nullable(),
+    .max(new Date().getFullYear(), 'Year cannot be in the future'),
 
   totalCopies: z.coerce
     .number()
@@ -63,4 +66,4 @@ export const createBookSchema = z.object({
     ),
 });
 
-export type CreateBookInput = z.infer<typeof createBookSchema>;
+export type BookSchema = z.infer<typeof bookSchema>;
