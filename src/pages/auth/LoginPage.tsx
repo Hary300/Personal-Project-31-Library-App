@@ -19,10 +19,6 @@ const LoginPage = () => {
     formState: { errors },
   } = useForm<LoginSchema>({
     defaultValues: {
-      // email: 'hary300@mail.com',
-      // password: 'secret300',
-      // email: 'admin@library.local',
-      // password: 'admin123',
       email: '',
       password: '',
     },

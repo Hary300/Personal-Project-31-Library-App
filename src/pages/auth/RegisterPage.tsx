@@ -19,11 +19,11 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<RegisterSchema>({
     defaultValues: {
-      name: 'hary305',
-      email: 'hary305@mail.com',
-      phone: '081305305305',
-      password: 'secret305',
-      confirmPassword: 'secret305',
+      name: '',
+      email: '',
+      phone: '',
+      password: '',
+      confirmPassword: '',
     },
     resolver: zodResolver(registerSchema),
   });
