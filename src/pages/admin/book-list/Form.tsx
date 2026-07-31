@@ -11,13 +11,13 @@ import Description from './Description';
 import UploadImage from './UploadImage';
 import type { BookAdminPayload } from '@/features/admin/service/bookAdmin.service';
 
-interface InitialValueData {
-  title: string;
-  isbn: string;
-  categoryId: number;
-  publishedYear: number;
-  authorName?: string;
-  description?: string;
+export interface InitialValueData {
+  title: string | undefined;
+  isbn: string | undefined;
+  categoryId: number | undefined;
+  publishedYear: number | undefined;
+  authorName: string | undefined;
+  description: string | undefined;
   authorId?: number;
   availableCopies?: number;
   totalCopies?: number;
@@ -31,6 +31,7 @@ interface FormProps {
 }
 
 const Form = ({ initialValueData, isPending, onSubmitBook }: FormProps) => {
+  console.log(initialValueData?.authorName);
   const form = useForm({
     defaultValues: {
       title: initialValueData?.title ?? '',
