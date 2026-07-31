@@ -21,8 +21,10 @@ const LoginPage = () => {
     defaultValues: {
       // email: 'hary300@mail.com',
       // password: 'secret300',
-      email: 'admin@library.local',
-      password: 'admin123',
+      // email: 'admin@library.local',
+      // password: 'admin123',
+      email: '',
+      password: '',
     },
     resolver: zodResolver(loginSchema),
   });
