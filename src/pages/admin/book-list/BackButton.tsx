@@ -1,15 +1,13 @@
 import { Button } from '@/components/ui/button';
 import type { ReactNode } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const BackButton = ({ children }: { children: ReactNode }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
   const handleBackClick = () => {
-    const params = new URLSearchParams(searchParams);
-    params.delete('action');
-    params.delete('bookId');
-    setSearchParams(params);
+    navigate(-1);
   };
 
   return (

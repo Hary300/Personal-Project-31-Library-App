@@ -2,6 +2,7 @@ import { api } from '@/lib/axios';
 import type { ApiResponse } from '@/types';
 import type { LoanListData } from '../types/admin-loan';
 import type { LoanFilterStatus } from '@/features/profile/service/loan.service';
+import type { ChangeLoanStatusData } from '../types/admin-change-status';
 
 export interface GetBorrowedBooksParams {
   status?: LoanFilterStatus;
@@ -24,5 +25,23 @@ export const getBorrowedBooks = async ({
       limit,
     },
   });
+  return data;
+};
+
+export interface ChangeLoanStatusPayload {
+  loanId: number;
+  dueAt: string;
+  status: 'BORROWED' | 'RETURNED' | 'LATE';
+}
+
+export const changeLoanStatus = async ({
+  loanId,
+  dueAt,
+  status,
+}: ChangeLoanStatusPayload): Promise<ApiResponse<ChangeLoanStatusData>> => {
+  const { data } = await api.patch<ApiResponse<ChangeLoanStatusData>>(
+    `/admin/loans/${loanId}`,
+    { dueAt, status }
+  );
   return data;
 };

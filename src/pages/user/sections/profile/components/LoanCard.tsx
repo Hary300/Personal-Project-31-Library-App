@@ -5,12 +5,15 @@ import { formatDate } from '@/utils/formate-date';
 import ReviewDialog from './ReviewDialog';
 import { useNavigate } from 'react-router-dom';
 import type { AdminLoan } from '@/features/admin/types/admin-loan';
+import { useAuthStore } from '@/features/auth/store/useAuthStore';
+import ChangeLoanStatusButton from '@/pages/admin/borrowed-list/ChangeLoanStatusButton';
 
 interface LoanCardProps {
   loans: MyLoan[] | AdminLoan[];
 }
 
 const LoanCard = ({ loans }: LoanCardProps) => {
+  const isAdmin = useAuthStore((state) => state.user?.role === 'ADMIN');
   const navigate = useNavigate();
   const statusColor = {
     BORROWED: 'bg-[#24A5000D] text-[#24A500]',
@@ -19,7 +22,11 @@ const LoanCard = ({ loans }: LoanCardProps) => {
   };
 
   const handleLoanCardClick = (bookId: number) => {
-    navigate(`/books/${bookId}`);
+    const path = isAdmin
+      ? `/admin?tab=book-list&action=preview&bookId=${bookId}`
+      : `/books/${bookId}`;
+
+    navigate(path);
   };
   return loans.map((loan) => (
     <div
@@ -83,6 +90,13 @@ const LoanCard = ({ loans }: LoanCardProps) => {
         </div>
         {loan.status === 'RETURNED' && !('borrower' in loan) && (
           <ReviewDialog bookId={loan.book.id} />
+        )}
+        {'borrower' in loan && (
+          <ChangeLoanStatusButton
+            loanId={loan.id}
+            dueAt={loan.dueAt}
+            loanStatus={loan.status}
+          />
         )}
       </div>
       {'borrower' in loan && (
