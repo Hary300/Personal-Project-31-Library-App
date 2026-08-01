@@ -18,9 +18,9 @@ export interface InitialValueData {
   publishedYear: number | undefined;
   authorName: string | undefined;
   description: string | undefined;
+  availableCopies: number | undefined;
+  totalCopies: number | undefined;
   authorId?: number;
-  availableCopies?: number;
-  totalCopies?: number;
   coverImage?: File;
 }
 
@@ -31,7 +31,7 @@ interface FormProps {
 }
 
 const Form = ({ initialValueData, isPending, onSubmitBook }: FormProps) => {
-  console.log(initialValueData?.authorName);
+  console.log(initialValueData?.totalCopies);
   const form = useForm({
     defaultValues: {
       title: initialValueData?.title ?? '',
@@ -39,16 +39,10 @@ const Form = ({ initialValueData, isPending, onSubmitBook }: FormProps) => {
       isbn: initialValueData?.isbn ?? '',
       publishedYear: initialValueData?.publishedYear ?? undefined,
       description: initialValueData?.description ?? '',
-      // title: 'History of Three Hundred',
-      // authorName: 'Hary300',
-      // isbn: '978-0123456789',
-      // publishedYear: 2024,
-      // description:
-      // 'An in-depth historical account detailing three hundred years of cultural evolution, societal shifts, and monumental achievements. Perfect for history enthusiasts and scholars seeking a comprehensive overview of a key historical era.',
       categoryId: initialValueData?.categoryId ?? '',
       authorId: initialValueData?.authorId ?? undefined,
-      availableCopies: initialValueData?.availableCopies ?? 0,
-      totalCopies: initialValueData?.totalCopies ?? 0,
+      availableCopies: initialValueData?.availableCopies ?? 1,
+      totalCopies: initialValueData?.totalCopies ?? 1,
       coverImage: initialValueData?.coverImage ?? undefined,
     },
     resolver: zodResolver(bookSchema),
@@ -61,6 +55,8 @@ const Form = ({ initialValueData, isPending, onSubmitBook }: FormProps) => {
       isbn: data.isbn,
       publishedYear: data.publishedYear,
       authorName: data.authorName,
+      availableCopies: data.availableCopies,
+      totalCopies: data.totalCopies,
       description: data.description ?? undefined,
       coverImage: data.coverImage ?? undefined,
     };
@@ -99,6 +95,18 @@ const Form = ({ initialValueData, isPending, onSubmitBook }: FormProps) => {
           name='isbn'
           register={form.register}
           errorMessage={form.formState.errors.isbn?.message}
+        />
+        <InputField
+          label='Stock *'
+          name='availableCopies'
+          register={form.register}
+          errorMessage={form.formState.errors.availableCopies?.message}
+        />
+        <InputField
+          label='Total Copies *'
+          name='totalCopies'
+          register={form.register}
+          errorMessage={form.formState.errors.totalCopies?.message}
         />
         <Description />
         <UploadImage />

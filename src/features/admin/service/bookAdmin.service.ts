@@ -29,6 +29,8 @@ export const addBookAdmin = async (
   formData.append('categoryId', String(payload.categoryId));
   formData.append('authorName', payload.authorName);
   formData.append('publishedYear', String(payload.publishedYear));
+  formData.append('totalCopies', String(payload.totalCopies));
+  formData.append('availableCopies', String(payload.availableCopies));
 
   if (payload.description) {
     formData.append('description', payload.description);
@@ -40,14 +42,6 @@ export const addBookAdmin = async (
 
   if (payload.authorId) {
     formData.append('authorId', String(payload.authorId));
-  }
-
-  if (payload.totalCopies !== undefined) {
-    formData.append('totalCopies', String(payload.totalCopies));
-  }
-
-  if (payload.availableCopies !== undefined) {
-    formData.append('availableCopies', String(payload.availableCopies));
   }
 
   const { data } = await api.post<ApiResponse<AdminBookData>>(

@@ -21,6 +21,8 @@ const Edit = () => {
     title: bookDetail?.title,
     authorName: bookDetail?.author.name,
     description: bookDetail?.description,
+    availableCopies: bookDetail?.availableCopies,
+    totalCopies: bookDetail?.totalCopies,
   };
 
   return (

@@ -59,7 +59,7 @@ export const useEditBookForAdmin = () => {
       });
 
       queryClient.invalidateQueries({
-        queryKey: ['admin', 'books'],
+        queryKey: ['admin', 'books', bookId],
       });
       toast.success(result.message);
     },
