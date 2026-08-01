@@ -1,4 +1,4 @@
-# 🌐 Librium
+# 🌐 Library App
 
 _A modern full-stack-inspired library management frontend featuring a seamless experience for both readers and administrators. Browse books, borrow collections, manage inventory, track loans, and administer the digital library through a clean, responsive interface._
 
